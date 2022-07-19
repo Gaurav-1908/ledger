@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}">
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-md-2 ">
+            <div class=" h-auto  p-3" style="background-color: #eee;">
+                <ul>
+                    <li><a href = '#' >Dashboard</a></li><br>
+                    <li><a href = '/studentAttendance.html' >Attaindance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6 mx-auto">
+            <div class="w-100 p-3" style="background-color: #eee;">
+                {% for i in user %}
+                    <p>Roll no : {{ i.roll }}</p>
+                    <p>Name : {{i.name}}</p>
+                    <p>Contact : {{i.contact}}</p>
+                    <p>Mail Id : {{i.mail}}</p>
+                    <p>Department : {{i.dept}}</p>
+                    <p>Year : {{i.year}}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class=" h-auto  p-3" style="background-color: #eee;">
+                {% for event in events %}
+                    <h5>{{ event.event }}</h5>
+                    <h5>{{ event.desc }}</h5>
+                    <h6><a href = "{{ event.link }}" target="_blank">{{ event.link }}</a></h6>
+                {% endfor%}
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

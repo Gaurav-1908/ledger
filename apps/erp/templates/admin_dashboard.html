@@ -1,0 +1,156 @@
+{% extends "base.html" %} {% block content %}
+{% load static %}
+<br>
+<br>
+<h2>Pending Admissions</h2>
+<hr>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+            <th>Roll no</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Mail id</th>
+            <th>Department</th>
+            <th>Year</th>
+            <th>Accept</th>
+            <th>Reject</th>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.roll }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.contact }}</td>
+                <td>{{ student.mail }}</td>
+                <td>{{ student.dept }}</td>
+                <td>{{ student.year }}</td>
+                <td>
+                    <form action="acceptUser" method='post'>
+                        {% csrf_token %}
+                        <input type="hidden" name="roll" value={{ student.roll }} />
+                        <input type="hidden" name="action" value="UPDATE" />
+                        <button type="submit" name="add" class="btn btn-success"
+                            style="padding-left : 15px; padding-right : 15px">Accept</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="rejectUser" method='post'>
+                        {% csrf_token %}
+                        <input type="hidden" name="roll" value={{ student.roll }} />
+                        <input type="hidden" name="action" value="DELETE" />
+                        <button type="submit" name="add" class="btn btn-danger"
+                            style="padding-left : 15px; padding-right : 15px">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+</div>
+<br>
+<br>
+<!-- accepted students table -->
+<div class="container">
+    <h2>Accepted Students</h2>
+    <hr>
+    <div class="containter">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <th>Roll no</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Mail id</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th>Remove</th>
+                </thead>
+                <tbody>
+                    {% for student in admitted_students %}
+                    <tr>
+                        <td>{{ student.roll }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.contact }}</td>
+                        <td>{{ student.mail }}</td>
+                        <td>{{ student.dept }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>
+                            <form action="rejectUser" method='post'>
+                                {% csrf_token %}
+                                <input type="hidden" name="roll" value={{ student.roll }} />
+                                <input type="hidden" name="action" value="DELETE" />
+                                <button type="submit" name="add" class="btn btn-danger"
+                                    style="padding-left : 15px; padding-right : 15px">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<br>
+<br>
+<!-- added staff table -->
+<div class="container">
+    <h2>Added Staff </h2>
+    <h6><a href="add-teacher"><button class="btn btn-primary mr-5">Add teacher</button></a> 
+        <a href="add-admin"><button class="btn btn-primary">Add Admin</button></a></h6>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table">
+                <thead class="thead-dark">
+                    <th>Teacher</th>
+                    <th>Remove</th>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{teacher.name}}</td>
+                        <td>
+                            <form action="removeTeacher" method='post'>
+                                {% csrf_token %}
+                                <input type="hidden" name="name" value={{ teacher.name }} />
+                                <input type="hidden" name="action" value="DELETE" />
+                                <button type="submit" name="add" class="btn btn-danger"
+                                    style="padding-left : 15px; padding-right : 15px">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                    <th>Admin</th>
+                    <th>Remove</th>
+                </thead>
+                <tbody>
+                    {% for admin in admins %}
+                    <tr>
+                        <td>{{admin.name}}</td>
+                        <td>
+                            <form action="deleteAdmin" method='post'>
+                                {% csrf_token %}
+                                <input type="hidden" name="username" value={{ admin.name }} />
+                                <input type="hidden" name="action" value="DELETE" />
+                                <button type="submit" name="add" class="btn btn-danger"
+                                    style="padding-left : 15px; padding-right : 15px">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
